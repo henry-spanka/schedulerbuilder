@@ -37,7 +37,7 @@ Als Betriebssystem wurde für alle Nodes Ubuntu 20.04.4 LTS mit dem OpenStack Re
 
 ## Installation einer OpenStack Entwicklungsumgebung
 
-Unter [docs/installation-openstack.md](#docs/installation-openstack.md) wird die Installation einer Entwicklungsumgebung der OpenStack Cloud beschrieben.
+Unter [docs/installation-openstack.md](docs/installation-openstack.md) wird die Installation einer Entwicklungsumgebung der OpenStack Cloud beschrieben.
 
 ## Installation von Filtern und Weigher
 
@@ -45,11 +45,11 @@ Die Installation dieses Projektes und eigenen Filtern in einer Openstack Entwick
 
 ## Entwicklung von Filter und Weigher
 
-Die Erweiterung dieses Projektes um Filter und Weigher ist unter [docs/scheduler.md](#docs/scheduler.md) beschrieben.
+Die Erweiterung dieses Projektes um Filter und Weigher ist unter [docs/scheduler.md](docs/scheduler.md) beschrieben.
 
 ## Lizenz
 
-Der Quellcode ist verfügbar unter der MIT Lizenz die unter [LICENSE.txt](#LICENSE.txt) eingesehen werden kann.
+Der Quellcode ist verfügbar unter der MIT Lizenz die unter [LICENSE.txt](LICENSE.txt) eingesehen werden kann.
 
 ## Note
 
