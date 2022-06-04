@@ -126,6 +126,61 @@ Die Eigenschaften **HostState** und **RequestSpec** beinhalten teilweise Unterkl
 
 - **Flavor**: [https://github.com/openstack/nova/blob/stable/yoga/nova/objects/flavor.py#L197](https://github.com/openstack/nova/blob/stable/yoga/nova/objects/flavor.py#L197)
 
+## Validator
+
+Nova API unterstützt die Validierung von Flavor Metadata.
+
+Dazu muss die Funktion **register** implementiert werden, die eine Liste an Validator zurückliefert. In diesem Projekt sind die Validator unter **src/schedulerbuilder/nova/validators.py** implementiert.
+
+Der folgende Python Code zeigt ein Beispiel welches zwei Metadata Schlüssel validiert.
+
+```python
+from nova.api.validation.extra_specs import base
+
+def register():
+    validators = [
+        base.ExtraSpecValidator(
+            name='customscope:someattribute',
+            description='Custom Enum Attribute that is used in filter/weighers',
+            value={
+                'type': str,
+                'enum': [
+                   'optionA',
+                   'optionB'
+                ]
+            }
+        ),
+        base.ExtraSpecValidator(
+            name='customscope:anotherattribute',
+            description='Custom int Attribute',
+            value={
+                'type': int
+            }
+        )
+    ]
+
+    return validators
+
+```
+
+Die Python-Datei muss dann als **nova.api.extra_spec_validators** Entrypoint registriert werden [[1]](#quelle_1).
+
+```ini
+[options.entry_points]
+    nova.api.extra_spec_validators =
+        customscope = namespace.of.my.package.validator
+```
+
+**Die Validierung wird ab der Nova Compute API Version 2.86 unterstützt [[3]](#quelle_3).** Eine ältere API Version, welche zum Beispiel auch von Horizon genutzt wird, akzeptiert alle Werte. Eine Validierung findet dort nicht statt.
+
+Über die OpenStack CLI kann die API Version manuell gesetzt werden:
+
+```bash
+openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=optionA # OK
+openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=invalid # FAIL
+openstack flavor set --property customattribute:someattribute=invalid # OK
+```
+
 ## Quellen
 
 <a id="quelle_1">[1]</a>
@@ -133,3 +188,6 @@ Die Eigenschaften **HostState** und **RequestSpec** beinhalten teilweise Unterkl
 
 <a id="quelle_2">[2]</a>
 <https://wiki.openstack.org/wiki/Scheduler/NormalizedWeight>
+
+<a id="quelle_3">[3]</a>
+<https://github.com/openstack/nova/blob/stable/yoga/nova/api/openstack/api_version_request.py#L234>
