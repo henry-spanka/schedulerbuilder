@@ -45,22 +45,22 @@ kolla-ansible -i ./multinode reconfigure --tag nova
 
 1. Das eigene Paket muss auf den Controllern (Nova API & Nova Scheduler) installiert sein.
 
-2. Konfiguration der Filter und Weigher in **nova.conf**.
+2. Konfiguration der Filter und Weigher in **/etc/nova/nova.conf**.
 
     - Filter:
 
-    ```ini
-    [filter_scheduler]
-    available_filters = nova.scheduler.filters.all_filters # filters shipped with Nova
-    available_filters = mypackage.filters.SingleInstancePerRequestFilter # Custom filter
-    enabled_filters = ComputeFilter,SingleInstancePerRequestFilter
-    ```
+        ```ini
+        [filter_scheduler]
+        available_filters = nova.scheduler.filters.all_filters # filters shipped with Nova
+        available_filters = mypackage.filters.SingleInstancePerRequestFilter # Custom filter
+        enabled_filters = ComputeFilter,SingleInstancePerRequestFilter
+        ```
 
     - Weigher:
 
-    ```ini
-    [filter_scheduler]
-    weight_classes = mypackage.weighers.InstanceCountWeigher
-    ```
+        ```ini
+        [filter_scheduler]
+        weight_classes = mypackage.weighers.InstanceCountWeigher
+        ```
 
 Nach dem Neustart der Dienste **nova-api** und **nova-scheduler** sind die Filter und Weigher aktiviert.
