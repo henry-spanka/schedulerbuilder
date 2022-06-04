@@ -23,4 +23,4 @@ ssh root@$NODE "docker cp $BUILD_FILE nova_api:$BUILD_FILE"
 ssh root@$NODE "docker exec nova_api pip install --no-deps --force-reinstall -U $BUILD_FILE"
 ssh root@$NODE 'docker restart nova_api'
 
-echo "novascheduler erfolgreich auf dem Controller installiert."
+echo "schedulerbuilder erfolgreich auf dem Controller installiert."
