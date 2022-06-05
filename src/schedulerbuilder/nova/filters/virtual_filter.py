@@ -1,20 +1,40 @@
+"""
+GPU Virtual Filter class.
+
+This filter will allow to filter hosts based on the flavor metadata gpu_weigher:model and gpu_weigher:count.
+To enable this filter gpu_weigher:enabled must be set to 'true'.
+
+The filter passes when the sum of gpu_weigher:count of all instances on the host is less than gpu_weigher:count set in the
+aggregate metadata of the host and gpu_weigher:model of the instances and request spec match.
+Additionally the gpu_weigher:count of the request spec must still fit on the host.
+
+Note that this filter can be used in combination with the GpuVirtualWeigher to either stack or spread instances.
+However this filter should not be used in OpenStack Pike or later due to the Placement API and Custom resources to be implemented.
+This filter does not allocate resources in the safe way due to the way Nova Scheduler works.
+For this reason the metadata key 'gpu_weigher:samehost' to require all instances in the same request spec to fit on a given host.
+Otherwise we may overallocate hosts as we are not able to get an atomic lock on resources. To ensure atomic locking the flavor
+should also include metadata for physical PCI requests to ensure proper allocation.
+"""
+
 from oslo_log import log as logging
 from nova.scheduler import filters
 from nova.objects.request_spec import RequestSpec
 from nova.scheduler.host_manager import HostState
 from schedulerbuilder.nova import extraSpecIsTrue, getAggregateMetadataUnique, getExtraSpecsValue
-from nova.scheduler.filters import utils as filterUtils
 from nova.objects.instance import Instance
 
 LOG = logging.getLogger(__name__)
 
 _SCOPE = 'gpu_weigher'
 
+
 class GpuVirtualFilter(filters.BaseHostFilter):
 
     RUN_ON_REBUILD = False
 
     def host_passes(self, host_state: HostState, request_spec: RequestSpec):
+        """Determines if a scheduled instance fits on the host based on flavor metadata.
+        """
         if not extraSpecIsTrue(request_spec.flavor, 'enabled', _SCOPE):
             # If GPU filtering is disabled the host passes.
             return True
@@ -23,7 +43,8 @@ class GpuVirtualFilter(filters.BaseHostFilter):
         count = getAggregateMetadataUnique(host_state, 'count', _SCOPE)
 
         if model is None or count is None:
-            LOG.debug("Host has either gpu model or count not defined. Not considering a viable host.")
+            LOG.debug(
+                "Host has either gpu model or count not defined. Not considering a viable host.")
             return False
 
         # convert GPU count to int after validation to ensure this is not None
@@ -35,12 +56,13 @@ class GpuVirtualFilter(filters.BaseHostFilter):
         if requestModel is None or requestModel != model:
             LOG.debug("Host does not match requested GPU model.")
             return False
-        
+
         if requestCount is None:
             LOG.warning("Requested GPU Count not defined. This is unsupported.")
             return False
 
-        count -= int(requestCount) * int(request_spec.num_instances) if extraSpecIsTrue(request_spec.flavor, 'samehost', _SCOPE) else 1
+        count -= int(requestCount) * int(request_spec.num_instances) if extraSpecIsTrue(
+            request_spec.flavor, 'samehost', _SCOPE) else 1
 
         if count < 0:
             # host has more total GPUs than the flavor requested.

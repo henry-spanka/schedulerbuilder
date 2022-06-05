@@ -1,9 +1,14 @@
-from nova.api.validation.extra_specs import base
-from oslo_log import log as logging
+"""
+This file defines Nova validators that are used by the Nova Compute API version 2.86 or later
+to validate metadata values of the gpu_weigher scope.
+"""
 
-LOG = logging.getLogger(__name__)
+from nova.api.validation.extra_specs import base
+
 
 def register():
+    """Returns a list of Nova validators.
+    """
     validators = [
         base.ExtraSpecValidator(
             name='gpu_weigher:enabled',
@@ -14,12 +19,12 @@ def register():
         ),
         base.ExtraSpecValidator(
             name='gpu_weigher:mode',
-            description='Weighing mode - push or pull nodes',
+            description='Weighing mode - stack or spread instances',
             value={
                 'type': str,
                 'enum': [
-                    'pull',
-                    'push'
+                    'stack',
+                    'spread'
                 ]
             }
         ),
