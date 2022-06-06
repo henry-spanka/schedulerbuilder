@@ -128,11 +128,11 @@ Die Eigenschaften **HostState** und **RequestSpec** beinhalten teilweise Unterkl
 
 ## Validator
 
-Nova API unterstützt die Validierung von Flavor Metadata.
+Nova API unterstützt die Validierung von Flavor Extra Specs.
 
 Dazu muss die Funktion **register** implementiert werden, die eine Liste an Validator zurückliefert. In diesem Projekt sind die Validator unter **src/schedulerbuilder/nova/validators.py** implementiert.
 
-Der folgende Python Code zeigt ein Beispiel welches zwei Metadata Schlüssel validiert.
+Der folgende Python Code zeigt ein Beispiel welches zwei Extra Spec Attribute validiert.
 
 ```python
 from nova.api.validation.extra_specs import base

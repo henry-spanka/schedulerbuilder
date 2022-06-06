@@ -1,6 +1,6 @@
 # Installation der Filter und Weigher
 
-Die Filter und Weigher müssen im Python Namespace des Nova Scheduler Dienstes verfügbar sein. Zusätzlich muss für die Metadata Validierung der Entrypoint **nova.api.extra_spec_validators** für den Nova API Dienst sichtbar sein.
+Die Filter und Weigher müssen im Python Namespace des Nova Scheduler Dienstes verfügbar sein. Zusätzlich muss für die Extra Spec Validierung der Entrypoint **nova.api.extra_spec_validators** für den Nova API Dienst sichtbar sein.
 
 ## Installation der Filter und Weigher unter OpenStack Kolla
 
