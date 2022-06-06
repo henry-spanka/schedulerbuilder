@@ -187,7 +187,7 @@ openstack flavor set --property customattribute:someattribute=invalid # OK
 <https://docs.openstack.org/nova/yoga/admin/scheduling.html>
 
 <a id="quelle_2">[2]</a>
-<https://wiki.openstack.org/wiki/Scheduler/NormalizedWeight>
+<https://wiki.openstack.org/wiki/Scheduler/NormalizedWeights>
 
 <a id="quelle_3">[3]</a>
 <https://github.com/openstack/nova/blob/stable/yoga/nova/api/openstack/api_version_request.py#L234>
