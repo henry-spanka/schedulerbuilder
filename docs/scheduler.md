@@ -176,9 +176,9 @@ Die Python-Datei muss dann als **nova.api.extra_spec_validators** Entrypoint reg
 Über die OpenStack CLI kann die API Version manuell gesetzt werden:
 
 ```bash
-openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=optionA # OK
-openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=invalid # FAIL
-openstack flavor set --property customattribute:someattribute=invalid # OK
+openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=optionA $FLAVOR # OK
+openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=invalid $FLAVOR # FAIL
+openstack flavor set --property customattribute:someattribute=invalid $FLAVOR # OK
 ```
 
 ## Quellen
