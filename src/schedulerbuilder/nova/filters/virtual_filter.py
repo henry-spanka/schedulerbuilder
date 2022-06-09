@@ -1,17 +1,17 @@
 """
 GPU Virtual Filter class.
 
-This filter will allow to filter hosts based on the flavor metadata gpu_weigher:model and gpu_weigher:count.
-To enable this filter gpu_weigher:enabled must be set to 'true'.
+This filter will allow to filter hosts based on the flavor metadata gpu_filter:model and gpu_filter:count.
+To enable this filter gpu_filter:enabled must be set to 'true'.
 
-The filter passes when the sum of gpu_weigher:count of all instances on the host is less than gpu_weigher:count set in the
-aggregate metadata of the host and gpu_weigher:model of the instances and request spec match.
-Additionally the gpu_weigher:count of the request spec must still fit on the host.
+The filter passes when the sum of gpu_filter:count of all instances on the host is less than gpu_filter:count set in the
+aggregate metadata of the host and gpu_filter:model of the instances and request spec match.
+Additionally the gpu_filter:count of the request spec must still fit on the host.
 
 Note that this filter can be used in combination with the GpuVirtualWeigher to either stack or spread instances.
 However this filter should not be used in OpenStack Pike or later due to the Placement API and Custom resources to be implemented.
 This filter does not allocate resources in the safe way due to the way Nova Scheduler works.
-For this reason the metadata key 'gpu_weigher:samehost' to require all instances in the same request spec to fit on a given host.
+For this reason the metadata key 'gpu_filter:samehost' to require all instances in the same request spec to fit on a given host.
 Otherwise we may overallocate hosts as we are not able to get an atomic lock on resources. To ensure atomic locking the flavor
 should also include metadata for physical PCI requests to ensure proper allocation.
 """
@@ -25,7 +25,7 @@ from nova.objects.instance import Instance
 
 LOG = logging.getLogger(__name__)
 
-_SCOPE = 'gpu_weigher'
+_SCOPE = 'gpu_filter'
 
 
 class GpuVirtualFilter(filters.BaseHostFilter):
