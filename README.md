@@ -12,7 +12,7 @@ Dabei setzt sich die minimale Entwicklungsumgebung aus den folgenden Komponenten
 
 - 2x Compute Node zur Erzeugung von virtuellen Maschinen
 - 1x Controller Node für die Basis-Dienste des Openstack Clusters
-- 1x Entwicklungs Node
+- 1x Deployment Node
 
 Die Server können dabei virtualisiert betrieben werden. In besonderen Fällen müssen die Compute Nodes auf physischer Hardware laufen, wenn zum Beispiel bestimmte Hardware zum Scheduling verwendet werden soll.
 
@@ -26,7 +26,7 @@ Im Rahmen der Bachelorarbeit wurden dabei folgende virtuelle Instanzen zur Entwi
   - 4 vCPUs
   - 8 GB RAM
 
-- 1x Entwicklungs Node
+- 1x Deployment Node
   - 1 vCPU
   - 2 GB RAM
 

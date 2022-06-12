@@ -2,7 +2,7 @@
 
 Im folgenden wird davon ausgegangen, dass sich alle Nodes auf dem Interface *eth0* untereinander erreichen können. Das weitere Interface *eth1* befindet sich in einem separaten Segment und besitzt keine IP-Adresse.
 
-Die Schritte [[1]](#quelle-1) werden dabei alle auf der Entwicklungs Node ausgeführt.
+Die Schritte [[1]](#quelle-1) werden dabei alle auf der Deployment Node ausgeführt.
 
 ## Installation von OpenStack Kolla
 
@@ -109,7 +109,7 @@ Dabei wird das Inventory **multinode** verwendet, da zur Entwicklung von Filtern
   localhost       ansible_connection=local
   ```
 
-2. Zusätzlich müssen alle Hosts mit ihrer IP-Adresse vom Interface **eth0** in **/etc/hosts** eingetragen werden, damit die Entwicklungs Node die anderen Nodes über ihren Hostnamen erreichen kann.
+2. Zusätzlich müssen alle Hosts mit ihrer IP-Adresse vom Interface **eth0** in **/etc/hosts** eingetragen werden, damit die Deployment Node die anderen Nodes über ihren Hostnamen erreichen kann.
 
   ```text
   192.168.10.3 controller
