@@ -47,6 +47,11 @@ Die Installation dieses Projektes und eigenen Filtern in einer Openstack Entwick
 
 Die Erweiterung dieses Projektes um Filter und Weigher ist unter [docs/scheduler.md](docs/scheduler.md) beschrieben.
 
+## Erweiterung von Placement um Ressourceklassen
+
+OpenStack Nova bietet die Erweiterung von Placement Ressourceklassen mit Hilfe von Resource Providern an. Eine Anleitung für die Ressourcenklasse CUSTOM_GPU ist unter
+[docs/resourceclass.md](docs/resourceclass.md) hinterlegt.
+
 ## Projekt bauen
 
 Alle Abhängigkeiten können mit dem Befehl `pip install -e .` installiert werden.
