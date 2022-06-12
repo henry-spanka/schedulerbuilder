@@ -62,7 +62,6 @@ Dabei gilt:
 
 - Multiplier > 0: Einfluss des Weighers wird verstärkt.
 - Multiplier = 0: Weigher nimmt keinen Einfuss aufs Scheduling.
-- Multiplier < 0: Einfluss des Weighers wird reduziert.
 
 Ein Weigher gewichtet eine Liste von Compute Nodes. Daher ist es nicht möglich im Nachhinein einen Host vom Scheduling zu exkludieren. Dafür muss ein Filter vorgeschaltet werden.
 
