@@ -1,8 +1,8 @@
-# Installation der Openstack Entwicklungsumgebung
+# Installation der OpenStack Entwicklungsumgebung
 
 Im folgenden wird davon ausgegangen, dass sich alle Nodes auf dem Interface *eth0* untereinander erreichen können. Das weitere Interface *eth1* befindet sich in einem separaten Segment und besitzt keine IP-Adresse.
 
-Die Schritte [[1]](#quelle-1) werden dabei alle auf der Deployment Node ausgeführt.
+Die Schritte [[1]](#quelle_1) werden dabei alle auf der Deployment Node ausgeführt.
 
 ## Installation von OpenStack Kolla
 
@@ -36,7 +36,7 @@ Die Schritte [[1]](#quelle-1) werden dabei alle auf der Deployment Node ausgefü
   sudo pip3 install git+https://opendev.org/openstack/kolla-ansible@stable/yoga
   ```
 
-6. Erstellen vom **/etc/kolla** Verzeichnis
+6. Erstellen vom **/etc/kolla** Verzeichnis.
 
   ```bash
   sudo mkdir -p /etc/kolla
@@ -49,7 +49,7 @@ Die Schritte [[1]](#quelle-1) werden dabei alle auf der Deployment Node ausgefü
   cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla
   ```
 
-8. Kopieren des **all-in-one** und **multinode** Inventories
+8. Kopieren des **all-in-one** und **multinode** Inventories.
 
   ```bash
   cp /usr/local/share/kolla-ansible/ansible/inventory/* .
@@ -60,6 +60,14 @@ Die Schritte [[1]](#quelle-1) werden dabei alle auf der Deployment Node ausgefü
   ```bash
   kolla-ansible install-deps
   ```
+
+Eventuell tritt bei Schritt 9 folgender Fehler auf:
+```bash
+root@deployment:~# kolla-ansible install-deps
+ERROR: Ansible version should be between 2.11 and 2.12. Current version is 2.9.6 which is not supported
+````
+
+Dann ist die Ansible Version inkompatibel mit Kolla. Ansible muss dann deinstalliert (`apt purge ansible`) und als Pip Paket installiert werden (`sudo pip install -U 'ansible>=4,<6'`)
 
 ## Konfiguration von Ansible
 
@@ -80,7 +88,7 @@ Zuerst müssen Controller und Compute Nodes die entsprechenden Rollen im Ansible
 
 Dabei wird das Inventory **multinode** verwendet, da zur Entwicklung von Filtern mindestens zwei Compute Nodes notwendig sind.
 
-1. Die erste Sektion wird zum folgende Einträge erweitert.
+1. Die erste Sektion wird wie folgt angepasst.
 
   ```ini
   # These initial groups are the only groups required to be modified. The
@@ -127,7 +135,7 @@ Dabei wird das Inventory **multinode** verwendet, da zur Entwicklung von Filtern
 
 Alle Passwörter der OpenStack Umgebung werden in der Datei **/etc/kolla/passwords.yml** gespeichert. Standardgemäß sind die Passwörter leer und müssen manuell gesetzt werden. Alternativ können die Passwörter automatisch generiert werden.
 
-1. Automatische Generation von Passwörtern
+1. Befehl zur automatischen Generation von Passwörtern.
 
   ```bash
   kolla-genpwd
@@ -137,9 +145,9 @@ Alle Passwörter der OpenStack Umgebung werden in der Datei **/etc/kolla/passwor
 
 Die **/etc/kolla/globals.yml** ist die Haupt Konfigurations-Datei von OpenStack Kolla.
 
-Folgende Änderungen darin vorgenommen werden.
+Folgende Änderungen müssen darin vorgenommen werden.
 
-1. Setzen der Container-Umgebung auf **ubuntu**
+1. Setzen der Container-Umgebung auf **ubuntu**.
 
   ```ini
   kolla_base_distro: "ubuntu"
@@ -151,14 +159,20 @@ Folgende Änderungen darin vorgenommen werden.
   kolla_internal_vip_address: "192.168.10.3"
   ```
 
-3. Setzen des Cluster und Neutron Netzwerkinterfaces.
+3. Deaktivierung von Haproxy.
+
+  ```ini
+  enable_haproxy: "no"
+  ````
+
+4. Setzen des Cluster und Neutron Netzwerkinterfaces.
 
   ```ini
   network_interface: "eth0"
   neutron_external_interface: "eth1"
   ```
 
-4. (Optional) Aktivieren des Debug Loggings aller OpenStack Dienste.
+5. (Optional) Aktivieren des Debug Loggings aller OpenStack Dienste.
 
   ```ini
   openstack_logging_debug: "True"
@@ -174,19 +188,19 @@ Installation und Konfiguration der OpenStack Nodes.
   kolla-ansible -i ./multinode bootstrap-servers
   ```
 
-2. Validierung der Umgebung von Konfiguration
+2. Validierung der Umgebung und Konfiguration.
 
   ```bash
   kolla-ansible -i ./multinode prechecks
   ````
 
-3. Installation der Openstack Umgebung
+3. Installation der OpenStack Umgebung.
 
   ```bash
   kolla-ansible -i ./multinode deploy
   ```
 
-Nach erfolgreicher Installation ist das OpenStack Horizon Web Panel erreichbar (hier `http://192.186.10.3`).
+Nach erfolgreicher Installation ist das OpenStack Horizon Web Panel erreichbar (hier `http://192.168.10.3`).
 
 Die Zugangsdaten lassen sich in **/etc/kolla/passwords.yml** oder mit folgendem Befehl finden.
 
@@ -198,15 +212,17 @@ Entsprechende Fehlermeldungen und Fehlerquellen sind im [Troubleshooting Guide](
 
 ## Initiale Einrichtung der OpenStack Cloud
 
-Standardgemäß sind keine Ports, Subnetze oder Flavors eingerichtet. Kolla bietet eine Standardkonfiguration die einige Flavor beeinhaltet. Dieser Schritt ist optional, sollte aber ausgeführt werden um eine Basiskonfiguration zu erhalten.
+Standardgemäß sind keine Ports, Subnetze oder Flavors eingerichtet. Kolla bietet eine Standardkonfiguration die einige Flavors beinhaltet. Dieser Schritt ist optional, sollte aber ausgeführt werden um eine Basiskonfiguration zu erhalten.
 
-1. Installation des Openstack CLI Clients
+1. Installation des OpenStack CLI Clients.
 
   ```bash
   pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/yoga
+  # Alternativ falls die Installation fehlschlägt
+  apt install python3-openstackclient
   ````
 
-2. Generierung der Openstack **openrc** Datei die Zugangsdaten für die OpenStack API enthält.
+2. Generierung der OpenStack **openrc** Datei die Zugangsdaten für die OpenStack API enthält.
 
   ```bash
   kolla-ansible post-deploy

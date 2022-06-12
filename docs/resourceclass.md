@@ -38,7 +38,7 @@ nova_compute_extra_volumes:
   - "/etc/kolla/volumes/nova_compute/provider_config:/etc/nova/provider_config"
 ```
 
-Nach einer Rekonfiguration von Nova wird dann vom Compute Dienst das Verzeichnis in den Docker Container verknüpft.
+Nach einer Rekonfiguration von Nova wird das Verzeichnis in den Docker Container verknüpft.
 
 ```bash
 kolla-ansible -i ./multinode reconfigure --tag nova

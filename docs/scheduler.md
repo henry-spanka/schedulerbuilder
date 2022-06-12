@@ -2,7 +2,7 @@
 
 Der OpenStack Compute Dienst Nova nutzt Filter und Weigher zur Zuweisung von Instanzen auf Hosts.
 
-Dabei werden in einem ersten Schritt die Compute Hosts der OpenStack Cloud vom Dienst Nova Scheduler gefiltert und eine Liste von möglichen Kanidaten erstellt (Filter) [[1]](#quelle_1). Im zweiten Schritt wird diese Liste dann gewichtet um den bestmöglichen Compute Host zu finden (Weigher).
+Dabei werden in einem ersten Schritt die Compute Hosts der OpenStack Cloud vom Dienst Nova Scheduler gefiltert und eine Liste von möglichen Kandidaten erstellt (Filter) [[1]](#quelle_1). Im zweiten Schritt wird diese Liste dann gewichtet um den bestmöglichen Compute Host zu finden (Weigher).
 
 ![Nova Scheduler](assets/filtering-workflow-1.png)
 
@@ -14,7 +14,7 @@ In diesem Projekt sind die Filter unter **/src/schedulerbuilder/nova/filters** u
 
 ## Filter
 
-Ein Filter besteht aus der Funktion **host_passes**. Dabei kann der **HostState** und der **RequestSpec** zur Entscheidung genutzt werden ob die Instanz auf den Host scheduled werden darf. Dies ist dann der Fall, wenn alle Filter für den jeweiligen Host **True** zurückgeben.
+Ein Filter besteht aus der Funktion **host_passes**. Dabei kann der **HostState** und der **RequestSpec** zur Entscheidung genutzt werden ob die Instanz auf dem Host scheduled werden darf. Dies ist dann der Fall, wenn alle Filter für den jeweiligen Host **True** zurückgeben.
 
 ```python
 from nova.objects.request_spec import RequestSpec
@@ -44,13 +44,12 @@ Dabei gilt:
 
 - Gewicht > 0: Host wird priorisiert.
 - Gewicht = 0: Weigher nimmt keinen Einfluss aufs Scheduling.
-- Gewicht < 0: Gewicht des Hosts wird reduziert.
 
 ### weight_multiplier
 
-Das ermittelte normalisierte Gewicht von **weigh_object** wird mit dem Rückgabewert dieser Funktion multipliziert. Dabei kann der **HostState** zur Berechnung genutzt werden. Dadurch können Weigher uneinander unterschiedlich gewichtet oder deaktiviert werden.
+Das ermittelte normalisierte Gewicht von **weigh_object** wird mit dem Rückgabewert dieser Funktion multipliziert. Dabei kann der **HostState** zur Berechnung genutzt werden. Dadurch können Weigher untereinander unterschiedlich gewichtet oder deaktiviert werden.
 
-### Kombination von Weighern
+### Kombination von Weigher
 
 Alle Weigher ermitteln unabhängig ein Gewicht. Diese werden dann zwischen 0 und 1 normalisiert und wie folgt kombiniert [[2]](#quelle_2):
 
@@ -62,6 +61,7 @@ Dabei gilt:
 
 - Multiplier > 0: Einfluss des Weighers wird verstärkt.
 - Multiplier = 0: Weigher nimmt keinen Einfuss aufs Scheduling.
+- Multiplier < 0: Weigher wird negiert.
 
 Ein Weigher gewichtet eine Liste von Compute Nodes. Daher ist es nicht möglich im Nachhinein einen Host vom Scheduling zu exkludieren. Dafür muss ein Filter vorgeschaltet werden.
 
@@ -81,7 +81,7 @@ class InstanceCountWeigher(weights.BaseHostWeigher):
        return host_state.num_instances # Stack based on Instances
 ```
 
-Im Beispiel ist ein Weigher implementiert, der einen Host anhand seiner Instanzen gewichtet. Dadurch werden Hosts mit mehr Instanzen priorisiert (Stacking). Über die Metadata der Host Aggregates (instance_count_weight_multiplier) kann dann die Wichtigkeit des Weighers bestimmt werden. Ein negatives Gewicht fürt dabei zu einem Spreading, d.h. die Instanzen werden möglichst breit auf den Hosts verteilt.
+Im Beispiel ist ein Weigher implementiert, der einen Host anhand seiner Instanzen gewichtet. Dadurch werden Hosts mit mehr Instanzen priorisiert (Stacking). Über die Metadata der Host Aggregates (instance_count_weight_multiplier) kann dann die Wichtigkeit des Weighers bestimmt werden. Ein negatives Gewicht führt dabei zu einem Spreading, d.h. die Instanzen werden möglichst breit auf den Hosts verteilt.
 
 ### HostState und RequestSpec
 
@@ -162,12 +162,12 @@ def register():
 
 ```
 
-Die Python-Datei muss dann als **nova.api.extra_spec_validators** Entrypoint registriert werden [[1]](#quelle_1).
+Die Funktion muss dann als **nova.api.extra_spec_validators** Entrypoint registriert werden [[1]](#quelle_1).
 
 ```ini
 [options.entry_points]
-    nova.api.extra_spec_validators =
-        customscope = namespace.of.my.package.validator
+nova.api.extra_spec_validators =
+    customscope = namespace.of.my.package.validator
 ```
 
 **Die Validierung wird ab der Nova Compute API Version 2.86 unterstützt [[3]](#quelle_3).** Eine ältere API Version, welche zum Beispiel auch von Horizon genutzt wird, akzeptiert alle Werte. Eine Validierung findet dort nicht statt.
@@ -175,9 +175,9 @@ Die Python-Datei muss dann als **nova.api.extra_spec_validators** Entrypoint reg
 Über die OpenStack CLI kann die API Version manuell gesetzt werden:
 
 ```bash
-openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=optionA $FLAVOR # OK
-openstack --os-compute-api-version 2.86 flavor set --property customattribute:someattribute=invalid $FLAVOR # FAIL
-openstack flavor set --property customattribute:someattribute=invalid $FLAVOR # OK
+openstack --os-compute-api-version 2.86 flavor set --property customscope:someattribute=optionA $FLAVOR # OK
+openstack --os-compute-api-version 2.86 flavor set --property customscope:someattribute=invalid $FLAVOR # FAIL
+openstack flavor set --property customscope:someattribute=invalid $FLAVOR # OK
 ```
 
 ## Tests

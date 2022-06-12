@@ -9,9 +9,9 @@ aggregate metadata of the host and gpu_filter:model of the instances and request
 Additionally the gpu_filter:count of the request spec must still fit on the host.
 
 Note that this filter can be used in combination with the GpuVirtualWeigher to either stack or spread instances.
-However this filter should not be used in OpenStack Pike or later due to the Placement API and Custom resources to be implemented.
-This filter does not allocate resources in the safe way due to the way Nova Scheduler works.
-For this reason the metadata key 'gpu_filter:samehost' to require all instances in the same request spec to fit on a given host.
+However this filter should not be used in OpenStack Pike or later due to the Placement API and Custom resources being implemented.
+This filter does not allocate resources in a safe way due to the way Nova Scheduler works.
+For this reason the metadata key 'gpu_filter:samehost' was added to require all instances in the same request spec to fit on the same host.
 Otherwise we may overallocate hosts as we are not able to get an atomic lock on resources. To ensure atomic locking the flavor
 should also include metadata for physical PCI requests to ensure proper allocation.
 """

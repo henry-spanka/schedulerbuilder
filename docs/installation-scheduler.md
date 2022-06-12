@@ -8,9 +8,9 @@ Die Filter und Weigher müssen im Python Namespace des Nova Scheduler Dienstes v
 
 Dieses Projekt beinhaltet ein eigenes Installationsskript: [install.sh](/install.sh)
 
-Dabei wird das Projekt automatisch gebaut und ein Python-Paket erzeugt und in den Nova API und Scheduler Container installiert.
+Dabei wird das Projekt automatisch gebaut und ein Python-Paket erzeugt und in den Nova API und Scheduler Container installiert. Das Paket `tox` muss dafür installiert sein.
 
-Das Skript muss mit dem SSH User und Hostname/IP des Controllers aufgerufen werden. Es empfielt sich vorher den SSH Public Key auf den Controller einzutragen, um die Passwortabfrage zu umgehen.
+Das Skript muss mit dem SSH User und Hostname/IP des Controllers aufgerufen werden. Es empfiehlt sich vorher den SSH Public Key auf den Controller einzutragen, um die Passwortabfrage zu umgehen.
 
 Einzelner Controller:
 ```bash

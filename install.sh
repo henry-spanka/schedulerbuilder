@@ -2,9 +2,6 @@
 
 set -e
 
-# https://stackoverflow.com/questions/8518750/to-show-only-file-name-without-the-entire-directory-path
-BUILD_FILE=`ls -t dist/schedulerbuilder-*.whl | head -1 | xargs -n 1 basename` # get latest wheel file
-
 if [ -z "$1" ]
 then
     echo "Hostname der Controller Nicht gesetzt.\n./install.sh root@HOSTNAME [root@HOSTNAME2 root@HOSTNAME3 ...]"
@@ -12,6 +9,9 @@ then
 fi
 
 tox -e build
+
+# https://stackoverflow.com/questions/8518750/to-show-only-file-name-without-the-entire-directory-path
+BUILD_FILE=`ls -t dist/schedulerbuilder-*.whl | head -1 | xargs -n 1 basename` # get latest wheel file
 
 for NODE in "$@"
 do

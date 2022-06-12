@@ -1,6 +1,6 @@
 """
 This file defines Nova validators that are used by the Nova Compute API version 2.86 or later
-to validate metadata values of the gpu_weigher scope.
+to validate extra spec values of the gpu_weigher scope.
 """
 
 from nova.api.validation.extra_specs import base

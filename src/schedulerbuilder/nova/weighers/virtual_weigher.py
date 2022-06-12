@@ -1,11 +1,11 @@
 """
 GPU Virtual Weigher class.
 
-This weigher will weigh based on an metadata value defined in the flavor metadata.
+This weigher will weigh based on extra specs defined in the flavor.
 
 Specifically we can either stack or spread specific flavors on hosts.
 
-To enable this weigher the gpu_weigher:enabled key must be set to 'true' in the flavor metadata.
+To enable this weigher the gpu_weigher:enabled key must be set to 'true' in the flavor extra specs.
 Additionally gpu_weigher:mode must either be 'stack' or 'spread' and gpu_weigher:resource set to the key
 that is used to search for instances to be used during the weighing process.
 
