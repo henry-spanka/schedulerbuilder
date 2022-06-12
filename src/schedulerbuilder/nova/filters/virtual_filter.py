@@ -61,8 +61,8 @@ class GpuVirtualFilter(filters.BaseHostFilter):
             LOG.warning("Requested GPU Count not defined. This is unsupported.")
             return False
 
-        count -= int(requestCount) * int(request_spec.num_instances) if extraSpecIsTrue(
-            request_spec.flavor, 'samehost', _SCOPE) else 1
+        count -= int(requestCount) * (int(request_spec.num_instances) if extraSpecIsTrue(
+            request_spec.flavor, 'samehost', _SCOPE) else 1)
 
         if count < 0:
             # host has more total GPUs than the flavor requested.

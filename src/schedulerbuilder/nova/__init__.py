@@ -11,7 +11,7 @@ def getExtraSpecsValue(flavor: Flavor, key: str, scope: str) -> Optional[str]:
     if scope:
         key = scope + ':' + key
 
-    if key in flavor.extra_specs:
+    if 'extra_specs' in flavor and key in flavor.extra_specs:
         return flavor.extra_specs[key]
 
     return None

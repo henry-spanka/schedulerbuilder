@@ -181,6 +181,10 @@ openstack --os-compute-api-version 2.86 flavor set --property customattribute:so
 openstack flavor set --property customattribute:someattribute=invalid $FLAVOR # OK
 ```
 
+## Tests
+
+Dieses Projekt stellt Unit-Tests unter **tests/unit** bereit. Diese können mit `tox` ausgeführt werden.
+
 ## Quellen
 
 <a id="quelle_1">[1]</a>

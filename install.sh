@@ -13,7 +13,7 @@ then
     exit 1
 fi
 
-python3 setup.py bdist_wheel
+tox -e build
 
 scp dist/$BUILD_FILE root@$NODE:/root/
 ssh root@$NODE "docker cp $BUILD_FILE nova_scheduler:$BUILD_FILE"

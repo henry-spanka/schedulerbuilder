@@ -47,6 +47,15 @@ Die Installation dieses Projektes und eigenen Filtern in einer Openstack Entwick
 
 Die Erweiterung dieses Projektes um Filter und Weigher ist unter [docs/scheduler.md](docs/scheduler.md) beschrieben.
 
+## Projekt bauen
+
+Alle Abhängigkeiten können mit dem Befehl `pip install -e .` installiert werden.
+Gebaut werden kann das Projekt dann mit `tox -e build`. Die Artefakte sind dann im Ordner **dist/** zu finden.
+
+## Tests
+
+Unit Tests für Filter und Weigher sind im Ordner **tests/unit** zu finden. Die Tests können mit dem Befehl **tox** ausgeführt werden.
+
 ## Lizenz
 
 Der Quellcode ist verfügbar unter der MIT Lizenz die unter [LICENSE.txt](LICENSE.txt) eingesehen werden kann.
