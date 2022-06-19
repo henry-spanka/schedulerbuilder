@@ -59,7 +59,7 @@ Gebaut werden kann das Projekt dann mit `tox -e build`. Die Artefakte sind dann 
 
 ## Tests
 
-Unit Tests für Filter und Weigher sind im Ordner **tests/unit** zu finden. Die Tests können mit dem Befehl **tox** ausgeführt werden.
+Unit Tests für Filter und Weigher sind im Ordner **tests/unit** zu finden. Die Tests können mit dem Befehl `tox` ausgeführt werden.
 
 ## Lizenz
 

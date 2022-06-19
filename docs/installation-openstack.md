@@ -67,7 +67,7 @@ root@deployment:~# kolla-ansible install-deps
 ERROR: Ansible version should be between 2.11 and 2.12. Current version is 2.9.6 which is not supported
 ````
 
-Dann ist die Ansible Version inkompatibel mit Kolla. Ansible muss dann deinstalliert (`apt purge ansible`) und als Pip Paket installiert werden (`sudo pip install -U 'ansible>=4,<6'`)
+Dann ist die Ansible Version inkompatibel mit Kolla. Ansible muss dann deinstalliert (`sudo apt purge ansible`) und als Pip Paket installiert werden (`sudo pip install -U 'ansible>=4,<6'`)
 
 ## Konfiguration von Ansible
 
@@ -135,7 +135,7 @@ Dabei wird das Inventory **multinode** verwendet, da zur Entwicklung von Filtern
 
 Alle Passwörter der OpenStack Umgebung werden in der Datei **/etc/kolla/passwords.yml** gespeichert. Standardgemäß sind die Passwörter leer und müssen manuell gesetzt werden. Alternativ können die Passwörter automatisch generiert werden.
 
-1. Befehl zur automatischen Generation von Passwörtern.
+1. Befehl zur automatischen Generierung von Passwörtern.
 
   ```bash
   kolla-genpwd
@@ -217,9 +217,9 @@ Standardgemäß sind keine Ports, Subnetze oder Flavors eingerichtet. Kolla biet
 1. Installation des OpenStack CLI Clients.
 
   ```bash
-  pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/yoga
+  sudo pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/yoga
   # Alternativ falls die Installation fehlschlägt
-  apt install python3-openstackclient
+  sudo apt install python3-openstackclient
   ````
 
 2. Generierung der OpenStack **openrc** Datei die Zugangsdaten für die OpenStack API enthält.

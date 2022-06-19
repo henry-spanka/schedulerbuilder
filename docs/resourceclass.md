@@ -1,6 +1,6 @@
 # Erweiterung von Placement um Ressourceklassen
 
-Standardgemäß definiert Nova Placement die Ressourcenklassen *VGPU*, *MEMORY_MB* und *DISK_GB*.
+Standardgemäß definiert Nova Placement die Ressourceklassen *VGPU*, *MEMORY_MB* und *DISK_GB*.
 Es lassen sich eigene Ressourcen mit dem Präfix **CUSTOM_** definieren.
 Der Nova Weigher **GpuVirtualWeigher** der in diesem Projekt implementiert ist, nutzt zum Beispiel eine eigene Ressource. Hier im Beispiel wird diese **CUSTOM_GPU** genannt.
 
